@@ -7,6 +7,9 @@ defmodule TrzWeb.Router do
 
   scope "/api", TrzWeb do
     pipe_through :api
+
+    post "/survivors", SurvivorController, :create
+    put "/last_location/:id", SurvivorController, :update_location
   end
 
   # Enables LiveDashboard only for development
