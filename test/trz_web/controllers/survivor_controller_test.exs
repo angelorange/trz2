@@ -38,4 +38,15 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
       assert expected["longitude"] == "22.55"
     end
   end
+
+  describe "flag" do
+    test "a survivor", %{conn: conn} do
+      survivor = insert(:survivor, %{is_infected: false})
+
+      conn = put(conn, Routes.survivor_path(conn, :flag_survivor, survivor.id))
+
+      assert expected = json_response(conn, 200)["data"] |> IO.inspect
+      assert expected["is_infected"] == true
+    end
+  end
 end

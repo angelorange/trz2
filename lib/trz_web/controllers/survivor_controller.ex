@@ -22,4 +22,13 @@ defmodule TrzWeb.SurvivorController do
       |> render("show.json", survivor: new_survivor)
     end
   end
+
+  def flag_survivor(conn, %{"id" => id}) do
+    with survivor <- Trz.Person.get_survivor!(id),
+      {:ok, %Survivor{} = flagged_survivor} <- Person.update_survivor(survivor, %{is_infected: true}) do
+      conn
+      |> put_status(:ok)
+      |> render("show.json", survivor: flagged_survivor)
+    end
+  end
 end

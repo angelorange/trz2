@@ -10,6 +10,7 @@ defmodule TrzWeb.Router do
 
     post "/survivors", SurvivorController, :create
     put "/last_location/:id", SurvivorController, :update_location
+    put "/flag/:id", SurvivorController, :flag_survivor
   end
 
   # Enables LiveDashboard only for development
