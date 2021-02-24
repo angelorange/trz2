@@ -17,6 +17,7 @@ defmodule TrzWeb.SurvivorView do
       gender: survivor.gender,
       latitude: survivor.latitude,
       longitude: survivor.longitude,
-      is_infected: survivor.is_infected}
+      is_infected: survivor.is_infected,
+      marked_as_infected: survivor.marked_as_infected}
   end
 end

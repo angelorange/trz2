@@ -12,8 +12,7 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
         age: 20,
         gender: "Feminino",
         latitude: "34.543666",
-        longitude: "11.445465",
-        is_infected: false
+        longitude: "11.445465"
       }
 
       conn = post(conn, Routes.survivor_path(conn, :create, params))
@@ -21,7 +20,8 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
       assert expected = json_response(conn, 201)["data"]
       assert expected["gender"] == params.gender
       assert expected["age"] == params.age
-      assert expected["is_infected"] == params.is_infected
+      assert expected["is_infected"] == false
+      assert expected["marked_as_infected"] == 0
     end
   end
 
@@ -41,11 +41,14 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
 
   describe "flag" do
     test "a survivor that already been marked 4 time", %{conn: conn} do #TODO
-      survivor = insert(:survivor, %{is_infected: false})
+      survivor = insert(:survivor, %{is_infected: false, marked_as_infected: 4})
+      snitch = insert(:survivor)
 
-      conn = put(conn, Routes.survivor_path(conn, :flag_survivor, survivor.id))
+      params = %{snitch_id: snitch.id}
 
-      assert expected = json_response(conn, 200)["data"] |> IO.inspect
+      conn = put(conn, Routes.survivor_path(conn, :flag_survivor, survivor.id, params))
+
+      assert expected = json_response(conn, 200)["data"]
       assert expected["is_infected"] == true
     end
 
@@ -55,9 +58,11 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
 
       params = %{snitch_id: snitch.id}
 
-      conn = put(conn, Routes.survivor_path(conn, :flag_survivor, survivor.id))
+      conn = put(conn, Routes.survivor_path(conn, :flag_survivor, survivor.id, params))
 
-      assert expected = json_response(conn, 200)
+      assert expected = json_response(conn, 200)["data"]
+      assert expected["is_infected"] == false
+      assert expected["marked_as_infected"] == 1
     end
 
     test "can't mark himself", %{conn: conn} do

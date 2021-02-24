@@ -101,4 +101,17 @@ defmodule Trz.Person do
   def change_survivor(%Survivor{} = survivor, attrs \\ %{}) do
     Survivor.changeset(survivor, attrs)
   end
+
+  def mark_survivor(%Survivor{} = survivor, _snitch_id) do
+    marked = survivor.marked_as_infected
+    {:ok, new_survivor} = update_survivor(survivor, %{marked_as_infected: marked + 1})
+
+    cond do
+      new_survivor.marked_as_infected >= 5 ->
+        update_survivor(survivor ,%{is_infected: true})
+
+      new_survivor.marked_as_infected < 5 ->
+        {:ok, new_survivor}
+    end
+  end
 end
