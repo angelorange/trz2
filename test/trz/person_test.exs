@@ -6,9 +6,30 @@ defmodule Trz.PersonTest do
   describe "survivors" do
     alias Trz.Person.Survivor
 
-    @valid_attrs %{age: 42, gender: "some gender", latitude: "some latitude", longitude: "some longitude", name: "some name", is_infected: false}
-    @update_attrs %{age: 43, gender: "some updated gender", latitude: "some updated latitude", longitude: "some updated longitude", name: "some updated name", is_infected: true}
-    @invalid_attrs %{age: nil, gender: nil, latitude: nil, longitude: nil, name: nil, is_infected: nil}
+    @valid_attrs %{
+      age: 42,
+      gender: "some gender",
+      latitude: "some latitude",
+      longitude: "some longitude",
+      name: "some name",
+      is_infected: false,
+      marked_as_infected: 0}
+
+    @update_attrs %{
+      age: 43,
+      gender: "some updated gender",
+      latitude: "some updated latitude",
+      longitude: "some updated longitude",
+      name: "some updated name",
+      is_infected: true,
+      marked_as_infected: 4}
+
+    @invalid_attrs %{
+      age: nil,
+      gender: nil,
+      latitude: nil,
+      longitude: nil,
+      name: nil}
 
     def survivor_fixture(attrs \\ %{}) do
       {:ok, survivor} =

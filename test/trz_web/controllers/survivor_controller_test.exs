@@ -40,13 +40,28 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
   end
 
   describe "flag" do
-    test "a survivor", %{conn: conn} do
+    test "a survivor that already been marked 4 time", %{conn: conn} do #TODO
       survivor = insert(:survivor, %{is_infected: false})
 
       conn = put(conn, Routes.survivor_path(conn, :flag_survivor, survivor.id))
 
       assert expected = json_response(conn, 200)["data"] |> IO.inspect
       assert expected["is_infected"] == true
+    end
+
+    test "marked survivor for the first time", %{conn: conn} do
+      survivor = insert(:survivor, %{is_infected: false})
+      snitch = insert(:survivor)
+
+      params = %{snitch_id: snitch.id}
+
+      conn = put(conn, Routes.survivor_path(conn, :flag_survivor, survivor.id))
+
+      assert expected = json_response(conn, 200)
+    end
+
+    test "can't mark himself", %{conn: conn} do
+
     end
   end
 end

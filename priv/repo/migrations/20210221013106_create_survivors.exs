@@ -9,6 +9,7 @@ defmodule Trz.Repo.Migrations.CreateSurvivors do
       add :latitude, :string
       add :longitude, :string
       add :is_infected, :boolean
+      add :marked_as_infected, :integer
 
       timestamps()
     end
