@@ -66,7 +66,15 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
     end
 
     test "can't mark himself", %{conn: conn} do
+      survivor = insert(:survivor, %{is_infected: false})
 
+      params = %{snitch_id: survivor.id}
+
+      conn = put(conn, Routes.survivor_path(conn, :flag_survivor, survivor.id, params))
+
+      assert expected = json_response(conn, 200)["data"]
+      assert expected["is_infected"] == false
+      assert expected["marked_as_infected"] == 0
     end
   end
 end

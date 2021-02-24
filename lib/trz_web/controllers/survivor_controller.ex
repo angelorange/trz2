@@ -25,7 +25,8 @@ defmodule TrzWeb.SurvivorController do
 
   def flag_survivor(conn, %{"id" => id, "snitch_id" => snitch_id}) do
     with survivor <- Trz.Person.get_survivor!(id),
-      {:ok, %Survivor{} = flagged_survivor} <- Person.mark_survivor(survivor, snitch_id) do
+      snitch <- Trz.Person.get_survivor!(snitch_id),
+      {:ok, %Survivor{} = flagged_survivor} <- Person.mark_survivor(survivor, snitch.id) do
       conn
       |> put_status(:ok)
       |> render("show.json", survivor: flagged_survivor)
