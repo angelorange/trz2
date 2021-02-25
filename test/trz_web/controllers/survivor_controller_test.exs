@@ -1,8 +1,6 @@
 defmodule TrzWeb.Controllers.SurvivorControllerTest do
   use TrzWeb.ConnCase
 
-  alias Trz.Person
-
   import Trz.Factory
 
   describe "create" do
@@ -83,6 +81,31 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
       assert expected = json_response(conn, 200)["data"]
       assert expected["is_infected"] == false
       assert expected["marked_as_infected"] == 0
+    end
+  end
+
+  describe "report" do
+    @tag :skip
+    test "of everything", %{conn: conn} do
+      _survivor = insert(:survivor, %{is_infected: true, fiji_water: 2, campbell_soup: 3, first_aid_pouch: 1, ak47: 2})
+      _survivor_two = insert(:survivor, %{is_infected: false, fiji_water: 2, campbell_soup: 3, first_aid_pouch: 1, ak47: 2})
+      _survivor_three = insert(:survivor, %{is_infected: true, fiji_water: 2, campbell_soup: 3, first_aid_pouch: 1, ak47: 2})
+      _survivor_four = insert(:survivor, %{is_infected: true, fiji_water: 2, campbell_soup: 3, first_aid_pouch: 1, ak47: 2})
+
+      total_items = %{
+        "fiji_water" => "8/4",
+        "campbell_soup" => "12/4",
+        "first_aid_pouch" => "4/4",
+        "ak47" => "8/4"
+      }
+
+      conn = get(conn, Routes.survivor_path(conn, :reports))
+
+      assert expected = json_response(conn, 200)
+      assert expected["total_infecteds"] == 75
+      assert expected["total_healthys"] == 25
+      assert expected["media_items_per_survivor"] == total_items
+      assert expected["points_lost_by_death"] == 1
     end
   end
 end
