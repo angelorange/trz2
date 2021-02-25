@@ -12,7 +12,11 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
         age: 20,
         gender: "Feminino",
         latitude: "34.543666",
-        longitude: "11.445465"
+        longitude: "11.445465",
+        fiji_water: 5,
+        campbell_soup: 6,
+        first_aid_pouch: 2,
+        ak47: 3
       }
 
       conn = post(conn, Routes.survivor_path(conn, :create, params))
@@ -21,6 +25,10 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
       assert expected["gender"] == params.gender
       assert expected["age"] == params.age
       assert expected["is_infected"] == false
+      assert expected["fiji_water"] == params.fiji_water
+      assert expected["campbell_soup"] == params.campbell_soup
+      assert expected["first_aid_pouch"] == params.first_aid_pouch
+      assert expected["ak47"] == params.ak47
       assert expected["marked_as_infected"] == 0
     end
   end

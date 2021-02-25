@@ -16,7 +16,7 @@ defmodule TrzWeb.SurvivorController do
 
   def update_location(conn, %{"id" => id, "last_location" => ll_params}) do
     with survivor <- Trz.Person.get_survivor!(id),
-      {:ok, %Survivor{} = new_survivor} <- Person.update_survivor(survivor, ll_params) do
+      {:ok, %Survivor{} = new_survivor} <- Person.update_survivor(survivor, %{latitude: ll_params["latitude"], longitude: ll_params["longitude"]}) do
       conn
       |> put_status(:ok)
       |> render("show.json", survivor: new_survivor)

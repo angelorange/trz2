@@ -18,6 +18,10 @@ defmodule TrzWeb.SurvivorView do
       latitude: survivor.latitude,
       longitude: survivor.longitude,
       is_infected: survivor.is_infected,
-      marked_as_infected: survivor.marked_as_infected}
+      marked_as_infected: survivor.marked_as_infected,
+      fiji_water: survivor.fiji_water,
+      campbell_soup: survivor.campbell_soup,
+      first_aid_pouch: survivor.first_aid_pouch,
+      ak47: survivor.ak47}
   end
 end

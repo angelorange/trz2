@@ -10,6 +10,10 @@ defmodule Trz.Repo.Migrations.CreateSurvivors do
       add :longitude, :string
       add :is_infected, :boolean
       add :marked_as_infected, :integer
+      add :fiji_water, :integer
+      add :campbell_soup, :integer
+      add :first_aid_pouch, :integer
+      add :ak47, :integer
 
       timestamps()
     end

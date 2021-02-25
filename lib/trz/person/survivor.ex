@@ -10,12 +10,16 @@ defmodule Trz.Person.Survivor do
     field :name, :string
     field :is_infected, :boolean, default: false
     field :marked_as_infected, :integer, default: 0
+    field :fiji_water, :integer, default: 0
+    field :campbell_soup, :integer, default: 0
+    field :first_aid_pouch, :integer, default: 0
+    field :ak47, :integer, default: 0
 
     timestamps()
   end
 
   @required_params [:age, :name, :gender, :latitude, :longitude, :is_infected]
-  @optional_params [:is_infected, :marked_as_infected]
+  @optional_params [:is_infected, :marked_as_infected, :fiji_water, :campbell_soup, :first_aid_pouch, :ak47]
   @doc false
   def changeset(survivor, attrs) do
     survivor
