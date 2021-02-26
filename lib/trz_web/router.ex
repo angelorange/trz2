@@ -8,10 +8,14 @@ defmodule TrzWeb.Router do
   scope "/api", TrzWeb do
     pipe_through :api
 
+    get "/reports", SurvivorController, :reports
+
     post "/survivors", SurvivorController, :create
+    post "/trade", SurvivorController, :trade
+
     put "/last_location/:id", SurvivorController, :update_location
     put "/flag/:id", SurvivorController, :flag_survivor
-    get "/reports", SurvivorController, :reports
+
   end
 
   # Enables LiveDashboard only for development

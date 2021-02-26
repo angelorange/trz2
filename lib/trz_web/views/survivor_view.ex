@@ -24,4 +24,12 @@ defmodule TrzWeb.SurvivorView do
       first_aid_pouch: survivor.first_aid_pouch,
       ak47: survivor.ak47}
   end
+
+  def render("report.json", %{report: report}) do
+    %{data: report}
+  end
+
+  def render("trade.json", %{trade: trade}) do
+    %{data: "WIP"}
+  end
 end

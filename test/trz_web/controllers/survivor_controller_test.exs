@@ -85,12 +85,11 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
   end
 
   describe "report" do
-    @tag :skip
     test "of everything", %{conn: conn} do
-      _survivor = insert(:survivor, %{is_infected: true, fiji_water: 2, campbell_soup: 3, first_aid_pouch: 1, ak47: 2})
-      _survivor_two = insert(:survivor, %{is_infected: false, fiji_water: 2, campbell_soup: 3, first_aid_pouch: 1, ak47: 2})
-      _survivor_three = insert(:survivor, %{is_infected: true, fiji_water: 2, campbell_soup: 3, first_aid_pouch: 1, ak47: 2})
-      _survivor_four = insert(:survivor, %{is_infected: true, fiji_water: 2, campbell_soup: 3, first_aid_pouch: 1, ak47: 2})
+      _survivor = insert(:survivor, %{is_infected: true, fiji_water: 2, campbell_soup: 3, first_aid_pouch: 0, ak47: 2})
+      _survivor_two = insert(:survivor, %{is_infected: false, fiji_water: 0, campbell_soup: 0, first_aid_pouch: 1, ak47: 0})
+      _survivor_three = insert(:survivor, %{is_infected: true, fiji_water: 0, campbell_soup: 0, first_aid_pouch: 0, ak47: 2})
+      _survivor_four = insert(:survivor, %{is_infected: true, fiji_water: 2, campbell_soup: 3, first_aid_pouch: 1, ak47: 0})
 
       total_items = %{
         "fiji_water" => "8/4",
@@ -101,11 +100,27 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
 
       conn = get(conn, Routes.survivor_path(conn, :reports))
 
-      assert expected = json_response(conn, 200)
+      assert expected = json_response(conn, 200)["data"] |> IO.inspect
       assert expected["total_infecteds"] == 75
       assert expected["total_healthys"] == 25
-      assert expected["media_items_per_survivor"] == total_items
       assert expected["points_lost_by_death"] == 1
+      assert expected["items_per_survivor"] == total_items
+    end
+  end
+
+  describe "trade" do
+    test "through survivors", %{conn: conn} do
+      survivor_one = insert(:survivor, %{is_infected: false, fiji_water: 5, first_aid_pouch: 5})
+      survivor_two = insert(:survivor, %{is_infected: false, campbell_soup: 6, ak47: 6})
+
+      params = %{survivor_one: survivor_one.id, survivor_two: survivor_two.id}
+
+      conn = post(conn, Routes.survivor_path(conn, :trade))
+
+      assert expected = json_response(conn, 200)["data"]
+      assert expected["survivor_one"] == params.survivor_one
+      assert expected["survivor_two"] == params.survivor_two
+      assert expected["trade status"] == "succesfully trade"
     end
   end
 end
