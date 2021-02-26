@@ -109,6 +109,7 @@ defmodule TrzWeb.Controllers.SurvivorControllerTest do
   end
 
   describe "trade" do
+    @tag :skip
     test "through survivors", %{conn: conn} do
       survivor_one = insert(:survivor, %{is_infected: false, fiji_water: 5, first_aid_pouch: 5})
       survivor_two = insert(:survivor, %{is_infected: false, campbell_soup: 6, ak47: 6})
