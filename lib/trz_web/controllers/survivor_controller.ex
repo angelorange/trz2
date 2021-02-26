@@ -39,6 +39,18 @@ defmodule TrzWeb.SurvivorController do
     |> render("report.json", report: Person.build_report())
   end
 
+  def trade(conn, params) do
+    with s_one <- Trz.Person.get_survivor!(params["survivor_one_id"]),
+      s_two <- Trz.Person.get_survivor!(params["survivor_two_id"]) do
+
+      ["algo"]
+
+      conn
+      |> put_status(:ok)
+      |> json(%{data: %{trade_status: "succesfully trade", survivor_one_id: s_one.id, survivor_two_id: s_two.id}})
+    end
+  end
+
   defp sanitizer(ll_params) do
     %{latitude: ll_params["latitude"], longitude: ll_params["longitude"]}
   end

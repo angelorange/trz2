@@ -127,7 +127,7 @@ defmodule Trz.Person do
       total_infecteds: (get_total_infected() / (list_survivors() |> length())) * 100,
       total_healthys: (get_total_healthys() / (list_survivors() |> length())) * 100,
       items_per_survivor: "#{get_item_per_survivor()}/#{(list_survivors() |> length())}",
-      points_lost_by_death: (points_lost_by_death() / (list_survivors() |> length())) * 100
+      points_lost_by_death: points_lost_by_death()
     }
   end
 
@@ -148,7 +148,7 @@ defmodule Trz.Person do
   defp get_item_per_survivor() do
     Survivor
     |> Repo.all
-    |> Enum.reduce(0, fn s, acc ->
+    |> Enum.reduce(0, fn s, _acc ->
       s.fiji_water + s.campbell_soup + s.first_aid_pouch + s.ak47
     end)
   end
@@ -157,7 +157,7 @@ defmodule Trz.Person do
     Survivor
     |> where([s], s.is_infected == true)
     |> Repo.all
-    |> Enum.reduce(0, fn s, acc ->
+    |> Enum.reduce(0, fn s, _acc ->
       (s.fiji_water * 14) + (s.campbell_soup * 12) + (s.first_aid_pouch * 10) + (s.ak47 * 8)
     end)
   end
